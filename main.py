@@ -1,12 +1,6 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-users = [
-    {"name": "Bill Gates", "birthday": datetime(1955, 10, 28)},
-    {"name": "Steve Jobs", "birthday": datetime(1955, 2, 24)},
-    {"name": "Mark Zuckerberg", "birthday": datetime(1984, 5, 14)}
-]
-
 def get_birthdays_per_week(users):
     # Створюємо словник для зберігання імен по днях тижня
     birthdays_per_week = defaultdict(list)
@@ -37,10 +31,20 @@ def get_birthdays_per_week(users):
             # Зберігаємо ім'я користувача у відповідний день тижня
             birthdays_per_week[next_birthday_weekday].append(user["name"])
 
+    # Відсортовуємо словник за днями тижня
+    sorted_birthdays_per_week = dict(sorted(birthdays_per_week.items(), key=lambda x: (["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].index(x[0]))))
+
     # Виводимо зібрані імена по днях тижня у відповідному форматі
-    for day, names in birthdays_per_week.items():
+    for day, names in sorted_birthdays_per_week.items():
         if len(names) > 0:
             print(f"{day}: {', '.join(names)}")
-            
+
+# Приклад виклику функції
+users = [
+    {"name": "Bill Gates", "birthday": datetime(1955, 10, 28)},
+    {"name": "Steve Jobs", "birthday": datetime(1955, 2, 24)},
+    {"name": "Dog Pug", "birthday": datetime(2022, 2, 19)},
+    {"name": "Mark Zuckerberg", "birthday": datetime(1984, 5, 14)}
+]
 
 get_birthdays_per_week(users)
