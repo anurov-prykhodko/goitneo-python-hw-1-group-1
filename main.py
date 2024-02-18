@@ -3,7 +3,7 @@ from collections import defaultdict
 
 def get_birthdays_per_week(users):
     # Створюємо словник для зберігання імен по днях тижня
-    birthdays_per_week = defaultdict(list)
+    birthdays_per_week = defaultdict(set)
 
     # Отримуємо поточну дату
     today = datetime.today().date()
@@ -27,17 +27,17 @@ def get_birthdays_per_week(users):
         if 0 < delta_days <= 7:
             # Визначаємо день тижня та переносимо на понеділок, якщо це вихідний
             next_birthday_weekday = (today + timedelta(days=delta_days)).strftime("%A")
+            if next_birthday_weekday in ["Saturday", "Sunday"]:
+                next_birthday_weekday = "Monday"
 
             # Зберігаємо ім'я користувача у відповідний день тижня
-            birthdays_per_week[next_birthday_weekday].append(user["name"])
-
-    # Відсортовуємо словник за днями тижня
-    sorted_birthdays_per_week = dict(sorted(birthdays_per_week.items(), key=lambda x: (["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].index(x[0]))))
+            birthdays_per_week[next_birthday_weekday].add((user["name"], birthday_this_year))
 
     # Виводимо зібрані імена по днях тижня у відповідному форматі
-    for day, names in sorted_birthdays_per_week.items():
-        if len(names) > 0:
-            print(f"{day}: {', '.join(names)}")
+    for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]:
+        if day in birthdays_per_week:
+            for name, birthday in sorted(birthdays_per_week[day], key=lambda x: x[1]):
+                print(f"{day}: {name}")
 
 # Приклад виклику функції
 users = [
