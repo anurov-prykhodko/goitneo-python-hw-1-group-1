@@ -8,9 +8,7 @@ def get_birthdays_per_week(users):
     # Отримуємо поточну дату
     today = datetime.today().date()
 
-    # Проходимося по користувачах
     for user in users:
-        # Отримуємо дату народження
         birthday = user["birthday"].date()
 
         # Конвертуємо до типу date
@@ -33,13 +31,12 @@ def get_birthdays_per_week(users):
             # Зберігаємо ім'я користувача у відповідний день тижня
             birthdays_per_week[next_birthday_weekday].add((user["name"], birthday_this_year))
 
-    # Виводимо зібрані імена по днях тижня у відповідному форматі
     for day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]:
         if day in birthdays_per_week:
             for name, birthday in sorted(birthdays_per_week[day], key=lambda x: x[1]):
                 print(f"{day}: {name}")
 
-# Приклад виклику функції
+
 users = [
     {"name": "Bill Gates", "birthday": datetime(1955, 10, 28)},
     {"name": "Steve Jobs", "birthday": datetime(1955, 2, 24)},
